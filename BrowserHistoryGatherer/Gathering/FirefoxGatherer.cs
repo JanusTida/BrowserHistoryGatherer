@@ -104,20 +104,18 @@ namespace BrowserHistoryGatherer.Gathering
 
         private IEnumerable<string> GetFirefoxDatabasePaths()
         {
-            ICollection<string> databasePaths = new List<string>();
+            var databasePaths = new List<string>();
 
             string dataFolder = Path.Combine(
                 Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),    
                 FIREFOX_DATA_PATH);
 
+            
             if (Directory.Exists(dataFolder))
             {
-                foreach (string profileFolder in Directory.EnumerateDirectories(dataFolder))
-                {
-                    string dbPath = Path.Combine(profileFolder, DATABASE_NAME);
-                    if (File.Exists(dbPath))
-                        databasePaths.Add(dbPath);
-                }
+                databasePaths.AddRange(
+                    Directory.EnumerateFiles(dataFolder, DATABASE_NAME, SearchOption.AllDirectories)
+                ); 
             }
 
             return databasePaths;

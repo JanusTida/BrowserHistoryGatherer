@@ -105,35 +105,19 @@ namespace BrowserHistoryGatherer.Gathering
         private IEnumerable<string> GetChromeDatabasePaths()
         {
             ICollection<string> databasePaths = new List<string>();
-            string path = null;
 
-            if (TryGetFullPathByProfile(DEFAULT_PROFILE_NAME, out path))
-                databasePaths.Add(path);
-
-            foreach (string userPath in Directory.EnumerateDirectories(FullDataPath, CUSTOM_PROFILE_PATTERN))
-            {
-                if (TryGetFullPathByProfile(new DirectoryInfo(userPath).Name, out path))
-                    databasePaths.Add(path);
+            if (!Directory.Exists(FullDataPath)) {
+                return databasePaths;
             }
 
+            foreach (var dbPath in Directory.EnumerateFiles(FullDataPath, DATABASE_NAME, SearchOption.AllDirectories)) {
+                databasePaths.Add(dbPath);
+            }
+             
             return databasePaths;
         }
 
 
-        private bool TryGetFullPathByProfile(string profileName, out string fullPath)
-        {
-            string dbPath = Path.Combine(
-                FullDataPath,
-                profileName,
-                DATABASE_NAME);
-
-            fullPath = File.Exists(dbPath)
-                ? dbPath
-                : null;
-
-            return fullPath == null
-                ? false 
-                : true;
-        }
+        
     }
 }
