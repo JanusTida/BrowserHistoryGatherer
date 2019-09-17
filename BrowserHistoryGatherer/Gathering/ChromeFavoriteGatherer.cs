@@ -18,7 +18,7 @@ namespace BrowserHistoryGatherer.Gathering {
         private const string DATA_PATH = @"Google\Chrome\User Data";
         private const string BookMarkFileName = "Bookmarks";
         private static readonly DateTime NTStartDateTime = new DateTime(1601, 1, 1, 0, 0, 0);
-        private const long TimeToMillisecondDevideCount = 10000;
+        private const long TimeToMilliSecondDevideCount = 1000;
 
         private const string JsonElemName_Name = "name";
         private const string JsonElemName_DateAdded = "date_added";
@@ -39,19 +39,21 @@ namespace BrowserHistoryGatherer.Gathering {
 
             var allBookMarks = Directory.EnumerateFiles(FullDataPath, BookMarkFileName, SearchOption.AllDirectories);
             foreach (var bookMarkFile in allBookMarks) {
-                AddBookMarksToFavoriteList(favoriteEntries, bookMarkFile);
+                favoriteEntries.AddRange(GetBookMarksFromBookMarkFilePath(bookMarkFile));
             }
             return favoriteEntries;
         }
 
         /// <summary>
-        /// 添加指定收藏夹文件中的内容到列表中;
+        /// 从指定收藏夹文件中的内容到获取到收藏夹列表;
         /// </summary>
         /// <param name="favoriteEntries"></param>
         /// <param name="bookMarkFilePath"></param>
-        private static void AddBookMarksToFavoriteList(List<FavoriteEntry> favoriteEntries,string bookMarkFilePath) {
+        private static List<FavoriteEntry> GetBookMarksFromBookMarkFilePath(string bookMarkFilePath) {
             JsonReader jsonReader = null;
             TextReader textReader = null;
+            var favoriteEntries = new List<FavoriteEntry>();
+
             try {
                 textReader = new StreamReader(bookMarkFilePath);
                 jsonReader = new JsonTextReader(textReader);
@@ -85,7 +87,7 @@ namespace BrowserHistoryGatherer.Gathering {
                     DateTime? dateAdded = null;
 
                     if (long.TryParse(bookMarkObject[JsonElemName_DateAdded].ToString(), out var dateTimeStamp)) {
-                        dateAdded = NTStartDateTime.AddMilliseconds(dateTimeStamp / 1000);
+                        dateAdded = NTStartDateTime.AddMilliseconds(dateTimeStamp / TimeToMilliSecondDevideCount);
                     }
 
                     var favoriteEntry = new FavoriteEntry(uri, name, dateAdded);
@@ -102,7 +104,7 @@ namespace BrowserHistoryGatherer.Gathering {
             }
 
 
-            
+            return favoriteEntries;
         }
 
         protected ChromeFavoriteGatherer() { }

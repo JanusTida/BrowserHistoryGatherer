@@ -3,6 +3,7 @@ using BrowserHistoryGatherer.Utils;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SQLite;
 using System.IO;
 
 namespace BrowserHistoryGatherer.Gathering
@@ -61,7 +62,7 @@ namespace BrowserHistoryGatherer.Gathering
 
             foreach (string dbPath in _chromeDatabasePaths)
             {
-                DataTable historyDt = SqlUtils.QueryDataTable(dbPath, query);
+                DataTable historyDt = SqliteUtils.QueryDataTable(dbPath,new SQLiteCommand(query));
 
                 foreach (DataRow row in historyDt.Rows)
                 {

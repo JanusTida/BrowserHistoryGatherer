@@ -40,5 +40,9 @@ namespace BrowserHistoryGatherer.Utils
         public static long GetTimeStampFromNewCentery(this DateTime dateTime) {
             return (long)(dateTime - DateTimeNewCentery).TotalSeconds;
         }
+
+        public static DateTime GetTimeFromNewCentery(long timeStamp) {
+            return DateTimeNewCentery.AddSeconds(timeStamp);
+        }
     }
 }

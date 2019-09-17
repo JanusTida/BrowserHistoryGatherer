@@ -31,6 +31,7 @@ namespace BrowserHistoryGatherer.Gathering {
             new ReadOnlyCollection<IFavoriteGatherer>(
                 new IFavoriteGatherer[] {
                     IEFavoriteGatherer.Instance,
+                    FirefoxFavoriteGatherer.Instance,
                     ChromeFavoriteGatherer.Instance,
                     _360ChromeFavoriteGatherer.Instance,
                     _360SEFavoriteGatherer.Instance

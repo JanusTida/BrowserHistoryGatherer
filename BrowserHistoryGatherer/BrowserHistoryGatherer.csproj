@@ -90,7 +90,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UrlHistoryDataProvider.cs" />
     <Compile Include="Utils\DateUtils.cs" />
-    <Compile Include="Utils\SqlUtils.cs" />
+    <Compile Include="Utils\SqliteUtils.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

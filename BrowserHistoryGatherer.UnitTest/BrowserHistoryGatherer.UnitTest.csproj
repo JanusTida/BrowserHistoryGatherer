@@ -56,6 +56,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Gathering\ChromeFavoriteGathererTests.cs" />
+    <Compile Include="Gathering\FirefoxFavoriteGathererTests.cs" />
     <Compile Include="Gathering\IECacheGathererTests.cs" />
     <Compile Include="Gathering\IEFavoriteGathererTests.cs" />
     <Compile Include="Gathering\_360ChromeFavoriteGathererTests.cs" />

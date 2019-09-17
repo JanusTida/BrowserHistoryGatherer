@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SQLite;
 using System.IO;
 using BrowserHistoryGatherer.Data;
 using BrowserHistoryGatherer.Utils;
@@ -60,7 +61,7 @@ namespace BrowserHistoryGatherer.Gathering
             
             foreach (string dbPath in _firefoxDatabasePaths)
             {
-                DataTable historyDt = SqlUtils.QueryDataTable(dbPath, query);
+                DataTable historyDt = SqliteUtils.QueryDataTable(dbPath,new SQLiteCommand(query));
 
                 foreach (DataRow row in historyDt.Rows)
                 {
@@ -106,7 +107,7 @@ namespace BrowserHistoryGatherer.Gathering
             ICollection<string> databasePaths = new List<string>();
 
             string dataFolder = Path.Combine(
-                Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+                Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),    
                 FIREFOX_DATA_PATH);
 
             if (Directory.Exists(dataFolder))
