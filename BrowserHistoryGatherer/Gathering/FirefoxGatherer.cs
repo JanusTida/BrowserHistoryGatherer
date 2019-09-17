@@ -113,7 +113,7 @@ namespace BrowserHistoryGatherer.Gathering
             {
                 foreach (string profileFolder in Directory.EnumerateDirectories(dataFolder))
                 {
-                    string dbPath = Path.Combine(dataFolder, profileFolder, DATABASE_NAME);
+                    string dbPath = Path.Combine(profileFolder, DATABASE_NAME);
                     if (File.Exists(dbPath))
                         databasePaths.Add(dbPath);
                 }
