@@ -10,9 +10,15 @@ namespace BrowserHistoryGatherer.Gathering
     /// <summary>
     /// A gatherer to get chrome history entries
     /// </summary>
-    internal sealed class ChromeGatherer : BaseGatherer
-    {
+    internal class ChromeGatherer : IBrowserHistoryGatherer {
         #region Private Members
+        protected virtual string FullDataPath => Path.Combine(
+#if DEBUG
+           "D:\\AppData",
+#else
+           Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+#endif
+           CHROME_DATA_PATH);
 
         private const string CHROME_DATA_PATH = @"Google\Chrome\User Data";
         private const string DEFAULT_PROFILE_NAME = "Default";
@@ -20,9 +26,6 @@ namespace BrowserHistoryGatherer.Gathering
         private const string DATABASE_NAME = "History";
         private const string TABLE_NAME = "urls";
 
-        private string _fullDataPath = Path.Combine(
-            Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-            CHROME_DATA_PATH);
 
         private IEnumerable<string> _chromeDatabasePaths;
 
@@ -30,7 +33,7 @@ namespace BrowserHistoryGatherer.Gathering
 
 
         #region Public Properties
-
+        public virtual string Name => Constants.BrowserName_Chrome;
         public static ChromeGatherer Instance { get; } = new ChromeGatherer();
 
         #endregion
@@ -42,14 +45,14 @@ namespace BrowserHistoryGatherer.Gathering
 
 
 
-        ChromeGatherer()
+        protected ChromeGatherer()
         {
             this._chromeDatabasePaths = GetChromeDatabasePaths();
         }
 
 
 
-        public sealed override ICollection<HistoryEntry> GetBrowserHistory(DateTime? startTime, DateTime? endTime)
+        public ICollection<HistoryEntry> GetBrowserHistories(DateTime? startTime, DateTime? endTime)
         {
             List<HistoryEntry> entryList = new List<HistoryEntry>();
 
@@ -68,7 +71,7 @@ namespace BrowserHistoryGatherer.Gathering
                     int? visitCount;
 
                     lastVisit = DateTime.Parse(row["last_visit"].ToString()).ToLocalTime();
-                    if (!base.IsEntryInTimelimit(lastVisit, startTime, endTime))
+                    if (!DateUtils.IsEntryInTimelimit(lastVisit, startTime, endTime))
                         continue;
 
                     try
@@ -106,7 +109,7 @@ namespace BrowserHistoryGatherer.Gathering
             if (TryGetFullPathByProfile(DEFAULT_PROFILE_NAME, out path))
                 databasePaths.Add(path);
 
-            foreach (string userPath in Directory.EnumerateDirectories(_fullDataPath, CUSTOM_PROFILE_PATTERN))
+            foreach (string userPath in Directory.EnumerateDirectories(FullDataPath, CUSTOM_PROFILE_PATTERN))
             {
                 if (TryGetFullPathByProfile(new DirectoryInfo(userPath).Name, out path))
                     databasePaths.Add(path);
@@ -119,7 +122,7 @@ namespace BrowserHistoryGatherer.Gathering
         private bool TryGetFullPathByProfile(string profileName, out string fullPath)
         {
             string dbPath = Path.Combine(
-                _fullDataPath,
+                FullDataPath,
                 profileName,
                 DATABASE_NAME);
 

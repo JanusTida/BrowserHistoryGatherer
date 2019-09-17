@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using BrowserHistoryGatherer.Data;
+using BrowserHistoryGatherer.Utils;
 using UrlHistoryLibrary;
 
 namespace BrowserHistoryGatherer.Gathering
@@ -9,7 +10,7 @@ namespace BrowserHistoryGatherer.Gathering
     /// <summary>
     /// A gatherer to get ie history entries
     /// </summary>
-    internal sealed class IEGatherer : BaseGatherer
+    internal sealed class IEGatherer : IBrowserHistoryGatherer
     {
         #region Private Members
 
@@ -17,7 +18,7 @@ namespace BrowserHistoryGatherer.Gathering
 
 
         #region Public Properties
-
+        public string Name => Constants.BrowserName_IE;
         public static IEGatherer Instance { get; } = new IEGatherer();
 
         #endregion
@@ -39,7 +40,7 @@ namespace BrowserHistoryGatherer.Gathering
 
 
 
-        public sealed override ICollection<HistoryEntry> GetBrowserHistory(DateTime? startTime, DateTime? endTime)
+        public ICollection<HistoryEntry> GetBrowserHistories(DateTime? startTime, DateTime? endTime)
         {
             List<HistoryEntry> entryList = new List<HistoryEntry>();
 
@@ -51,7 +52,7 @@ namespace BrowserHistoryGatherer.Gathering
                 string title;
 
                 lastUpdate = historyEnumertator.Current.LastUpdated;
-                if (!base.IsEntryInTimelimit(lastUpdate, startTime, endTime))
+                if (!DateUtils.IsEntryInTimelimit(lastUpdate, startTime, endTime))
                     continue;
 
                 try

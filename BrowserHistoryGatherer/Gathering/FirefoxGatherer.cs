@@ -10,7 +10,7 @@ namespace BrowserHistoryGatherer.Gathering
     /// <summary>
     /// A gatherer to get firefox history entries
     /// </summary>
-    internal sealed class FirefoxGatherer : BaseGatherer
+    internal sealed class FirefoxGatherer : IBrowserHistoryGatherer
 
     {
         #region Private Members
@@ -28,6 +28,8 @@ namespace BrowserHistoryGatherer.Gathering
         #region Public Properties
 
         public static FirefoxGatherer Instance { get; } = new FirefoxGatherer();
+
+        public string Name => Constants.BrowserName_Firefox;
 
         #endregion
 
@@ -48,7 +50,7 @@ namespace BrowserHistoryGatherer.Gathering
 
 
 
-        public sealed override ICollection<HistoryEntry> GetBrowserHistory(DateTime? startTime, DateTime? endTime)
+        public ICollection<HistoryEntry> GetBrowserHistories(DateTime? startTime, DateTime? endTime)
         {
             List<HistoryEntry> entryList = new List<HistoryEntry>();
 
@@ -68,7 +70,7 @@ namespace BrowserHistoryGatherer.Gathering
                     int? visitCount;
 
                     lastVisit = DateTime.Parse(row["last_visit"].ToString()).ToLocalTime();
-                    if (!base.IsEntryInTimelimit(lastVisit, startTime, endTime))
+                    if (!DateUtils.IsEntryInTimelimit(lastVisit, startTime, endTime))
                         continue;
 
                     try
@@ -119,5 +121,6 @@ namespace BrowserHistoryGatherer.Gathering
 
             return databasePaths;
         }
+
     }
 }

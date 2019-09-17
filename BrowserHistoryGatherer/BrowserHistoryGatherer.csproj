@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>BrowserHistoryGatherer</RootNamespace>
     <AssemblyName>BrowserHistoryGatherer</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -36,6 +36,12 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Esent.Interop, Version=1.9.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\ManagedEsent.1.9.4\lib\net40\Esent.Interop.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="plist-cil, Version=1.16.0.0, Culture=neutral, PublicKeyToken=ec2cb9e1a719933d, processorArchitecture=MSIL">
       <HintPath>..\packages\plist-cil.1.16.0\lib\net45\plist-cil.dll</HintPath>
     </Reference>
@@ -50,17 +56,38 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="Tida.Util, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Tida.Util.1.0.0\lib\NET452\Tida.Util.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BrowserHistory.cs" />
+    <Compile Include="Data\CacheEntry.cs" />
+    <Compile Include="Data\FavoriteEntry.cs" />
     <Compile Include="Data\HistoryEntry.cs" />
     <Compile Include="Enums\Browser.cs" />
+    <Compile Include="Gathering\360SEFavoriteGatherer.cs" />
+    <Compile Include="Gathering\ChromeFavoriteGatherer.cs" />
     <Compile Include="Gathering\ChromeGatherer.cs" />
+    <Compile Include="Gathering\ColumnRetrievers.cs" />
+    <Compile Include="Gathering\Constants.cs" />
+    <Compile Include="Gathering\DBReader.cs" />
+    <Compile Include="Gathering\DBRow.cs" />
     <Compile Include="Gathering\FirefoxGatherer.cs" />
-    <Compile Include="Gathering\BaseGatherer.cs" />
+    <Compile Include="Gathering\Gatherers.cs" />
+    <Compile Include="Gathering\IBrowserCacheGatherer.cs" />
+    <Compile Include="Gathering\IBrowserGatherer.cs" />
+    <Compile Include="Gathering\IECacheGatherer.cs" />
+    <Compile Include="Gathering\IEFavoriteGatherer.cs" />
     <Compile Include="Gathering\IEGatherer.cs" />
+    <Compile Include="Gathering\IFavoriteGatherer.cs" />
     <Compile Include="Gathering\SafariGatherer.cs" />
+    <Compile Include="Gathering\_360ChromeFavoriteGatherer.cs" />
+    <Compile Include="Gathering\_360ChromeGatherer.cs" />
+    <Compile Include="Gathering\_360SEGatherer.cs" />
+    <Compile Include="Logger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UrlHistoryDataProvider.cs" />
     <Compile Include="Utils\DateUtils.cs" />
     <Compile Include="Utils\SqlUtils.cs" />
   </ItemGroup>

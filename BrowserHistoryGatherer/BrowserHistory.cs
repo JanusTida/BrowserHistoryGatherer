@@ -32,16 +32,16 @@ namespace BrowserHistoryGatherer
             List<HistoryEntry> historyEntries = new List<HistoryEntry>();
 
             if ((browser & Browser.Chrome) == Browser.Chrome)
-                historyEntries.AddRange(ChromeGatherer.Instance.GetBrowserHistory(startTime, endTime));
+                historyEntries.AddRange(ChromeGatherer.Instance.GetBrowserHistories(startTime, endTime));
 
             if ((browser & Browser.Firefox) == Browser.Firefox)
-                historyEntries.AddRange(FirefoxGatherer.Instance.GetBrowserHistory(startTime, endTime));
+                historyEntries.AddRange(FirefoxGatherer.Instance.GetBrowserHistories(startTime, endTime));
 
             if ((browser & Browser.Safari) == Browser.Safari)
                 historyEntries.AddRange(SafariGatherer.Instance.GetBrowserHistory(startTime, endTime));
 
             if ((browser & Browser.InternetExplorer) == Browser.InternetExplorer)
-                historyEntries.AddRange(IEGatherer.Instance.GetBrowserHistory(startTime, endTime));
+                historyEntries.AddRange(IEGatherer.Instance.GetBrowserHistories(startTime, endTime));
 
             return historyEntries;
         }

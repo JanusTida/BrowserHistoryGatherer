@@ -1,0 +1,5 @@
+﻿{
+  "BrowserTypes": [ "Chrome", "Firefox", "Internet Explorer","360Chrome","360SE" ],
+  "Commands": [ "Get-History", "Get-Cache","Get-Favorite" ],
+  "OutputFile": "Results.json"
+}

@@ -10,7 +10,7 @@ namespace BrowserHistoryGatherer.Gathering
     /// <summary>
     /// A gatherer to get chrome history entries
     /// </summary>
-    internal sealed class SafariGatherer : BaseGatherer
+    internal sealed class SafariGatherer : IBrowserHistoryGatherer
     {
         #region Private Members
 
@@ -25,6 +25,8 @@ namespace BrowserHistoryGatherer.Gathering
         #region Public Properties
 
         public static SafariGatherer Instance { get; } = new SafariGatherer();
+
+        public string Name => "Safari";
 
         #endregion
 
@@ -45,7 +47,7 @@ namespace BrowserHistoryGatherer.Gathering
 
 
 
-        public sealed override ICollection<HistoryEntry> GetBrowserHistory(DateTime? startTime, DateTime? endTime)
+        public ICollection<HistoryEntry> GetBrowserHistory(DateTime? startTime, DateTime? endTime)
         {
             List<HistoryEntry> entryList = new List<HistoryEntry>();
 
@@ -65,7 +67,7 @@ namespace BrowserHistoryGatherer.Gathering
 
                 if (!DateUtils.TryParsePlistToLocal(entryAsDict.ObjectForKey("lastVisitedDate").ToString(), out lastVisit))
                     continue;
-                if (!base.IsEntryInTimelimit(lastVisit, startTime, endTime))
+                if (!DateUtils.IsEntryInTimelimit(lastVisit, startTime, endTime))
                     continue;
 
                 try
@@ -102,6 +104,10 @@ namespace BrowserHistoryGatherer.Gathering
             return File.Exists(path)
                 ? path
                 : null;
+        }
+
+        public ICollection<HistoryEntry> GetBrowserHistories(DateTime? startTime, DateTime? endTime) {
+            throw new NotImplementedException();
         }
     }
 }
