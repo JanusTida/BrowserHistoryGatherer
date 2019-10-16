@@ -3,6 +3,7 @@ using System.Runtime.InteropServices;
 using System.Collections;
 using System.IO;
 using System.Text;
+using System.Runtime.InteropServices.ComTypes;
 
 namespace UrlHistoryLibrary
 {

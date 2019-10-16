@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using BrowserHistoryGatherer.Data;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Tida.Util;
 
 namespace BrowserHistoryGatherer.Gathering {
     /// <summary>
@@ -30,6 +29,7 @@ namespace BrowserHistoryGatherer.Gathering {
             Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
             DATA_PATH));
 
+        
 
         public ICollection<FavoriteEntry> GetBrowserFavorites() {
             var favoriteEntries = new List<FavoriteEntry>();

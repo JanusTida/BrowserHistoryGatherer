@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -11,11 +12,52 @@ using System.Xml.Linq;
 
 namespace BrowserHistoryGatherer {
     class Program {
+        private static string[] ProcessNames = new string[] {
+            "Firefox",
+            "360SE",
+            "Chrome",
+            "360chrome"
+        };
+        /// <summary>
+        /// 关闭浏览器进程;
+        /// </summary>
+        private static void KillBrowserProcesses() {
+            Console.WriteLine("Closing processes...");
+            try {
+                foreach (var proName in ProcessNames) {
+                    Console.WriteLine($"Looking for process{proName}.");
+
+                    var processes = Process.GetProcessesByName(proName);
+                    
+                    if(processes.Length == 0) {
+                        Console.WriteLine($"Process :{proName} not found.");
+                        continue;
+                    }
+                    else {
+                        Console.WriteLine($"{processes.Length} process(es) found.");
+                    }
+
+                    Console.WriteLine($"Killing process:{proName}.");
+                    foreach (var pro in processes) {
+                        pro.Kill();
+                    }
+
+                    Console.WriteLine($"{proName} is done.");
+                }
+            }
+            catch (Exception ex) {
+                Console.WriteLine(ex.Message);
+            }
+            Console.WriteLine("Closing processes done.");
+        }
+
         static void Main(string[] args) {
             var argumentSetting = GetArgumentSetting(args);
             if(argumentSetting == null) {
                 return;
             }
+
+            KillBrowserProcesses();
 
             var docJObject = new JObject();
             

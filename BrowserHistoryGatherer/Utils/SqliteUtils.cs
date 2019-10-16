@@ -11,6 +11,8 @@ namespace BrowserHistoryGatherer.Utils
             DataTable dataTable = new DataTable();
             var connectionStringBuilder = new SQLiteConnectionStringBuilder();
             connectionStringBuilder.DataSource = dbPath;
+            connectionStringBuilder.ReadOnly = true;
+
             using (SQLiteConnection sqlConnection = new SQLiteConnection(connectionStringBuilder.ConnectionString))
             {
                 sqlConnection.Open();

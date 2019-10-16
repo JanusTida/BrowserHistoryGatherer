@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BrowserHistoryGatherer.UnitTest {
@@ -7,6 +8,8 @@ namespace BrowserHistoryGatherer.UnitTest {
         [TestMethod]
         public void TestDir() {
             var s = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
+            var s2 = Path.GetFileNameWithoutExtension("D://1.jpg");
+            
         }
         [TestMethod]
         public void TestMethod1() {
